@@ -211,11 +211,158 @@ def part_four():
     plt.show()
 
 
+def part_five():
+    path = np.loadtxt("path.txt")
+    speech = np.loadtxt("css.txt")
+
+    # Concatenate the speech signal 10 times to get the Far-End signal
+    speech = np.concatenate(
+        (
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+        ),
+        axis=0,
+    )
+
+    # Convolve the speech with the path to get the echo signal
+    d = np.zeros(len(speech) + len(path) - 1)
+    for i in range(len(speech)):
+        d[i : i + len(path)] += speech[i] * path
+    d = d / np.max(np.abs(d))
+
+    # Inputs to the adaptive filter
+    filter_length = 128
+    mu = 0.25
+    e = np.zeros(len(speech))
+    y = np.zeros(len(speech))
+
+    # adaptive filter
+    adaptive_filter = pa.filters.FilterNLMS(n=filter_length, mu=mu, w="random")
+
+    for i in range(filter_length, len(speech)):
+        adaptive_filter.adapt(d[i], speech[i - filter_length : i])
+        y[i] = np.dot(adaptive_filter.w, speech[i - filter_length : i])
+        e[i] = d[i] - y[i]
+
+    # plot the amplitude and phase response for the estimated FIR channel
+    plt.figure(figsize=(10, 5))
+    # amplitude response
+    plt.subplot(121)
+    w, h = sp.signal.freqz(path, worN=8000)
+    f = w * Fs / (2 * np.pi)
+    plt.plot(20 * np.log10(np.abs(h)), label="Path")
+    w, h = sp.signal.freqz(adaptive_filter.w, worN=8000)
+    f = w * Fs / (2 * np.pi)
+    plt.plot(20 * np.log10(np.abs(h)), label="Estimated Path")
+    plt.title("Amplitude Response")
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Amplitude (dB)")
+
+    # phase response
+    plt.subplot(122)
+    plt.plot(np.angle(np.fft.fft(path, 1024)))
+    plt.plot(np.angle(np.fft.fft(adaptive_filter.w, 1024)))
+    plt.title("Phase Response")
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Phase")
+    plt.ylim(-np.pi, np.pi)
+
+    plt.tight_layout()
+    plt.legend()
+    plt.show()
+
+
+def part_six():
+    path = np.loadtxt("path.txt")
+    speech = np.loadtxt("css.txt")
+
+    # Concatenate the speech signal 10 times to get the Far-End signal
+    speech = np.concatenate(
+        (
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+            speech,
+        ),
+        axis=0,
+    )
+
+    # Convolve the speech with the path to get the echo signal
+    d = np.zeros(len(speech) + len(path) - 1)
+    for i in range(len(speech)):
+        d[i : i + len(path)] += speech[i] * path
+    d = d / np.max(np.abs(d))
+
+    # Inputs to the adaptive filter NLMS
+    filter_length = 128
+    mu = 0.25
+    eNLMS = np.zeros(len(speech))
+    yNLMS = np.zeros(len(speech))
+
+    # Inputs to the adaptive filter NLMF
+    filter_length = 128
+    m = 0.005
+    eNLMF = np.zeros(len(speech))
+    yNLMF = np.zeros(len(speech))
+
+    # adaptive filter NLMS
+    adaptive_filter1 = pa.filters.FilterNLMS(
+        n=filter_length, mu=mu, eps=1e-6, w="random"
+    )
+    # adaptive filter NLMF
+    adaptive_filter2 = pa.filters.FilterNLMF(n=filter_length, mu=m, w="random")
+
+    for i in range(filter_length, len(speech)):
+        adaptive_filter1.adapt(d[i], speech[i - filter_length : i])
+        adaptive_filter2.adapt(d[i], speech[i - filter_length : i])
+        yNLMS[i] = np.dot(adaptive_filter1.w, speech[i - filter_length : i])
+        yNLMF[i] = np.dot(adaptive_filter2.w, speech[i - filter_length : i])
+        eNLMS[i] = d[i] - yNLMS[i]
+        eNLMF[i] = d[i] - yNLMF[i]
+
+    # error signal for NLMS and LMS
+    plt.subplot(121)
+    plt.plot(eNLMS, label="Error Signal NLMS")
+    plt.plot(eNLMF, label="Error Signal NLMF")
+    plt.title("Error Signal")
+    plt.xlabel("Sample Index (n)")
+    plt.ylabel("Amplitude")
+
+    # estimated echo signal for NLMS and LMS
+    plt.subplot(122)
+    plt.plot(path, label="Echo Path")
+    plt.plot(adaptive_filter1.w, label="Estimated Echo Path NLMS")
+    plt.plot(adaptive_filter2.w, label="Estimated Echo Path NLMF")
+    plt.title("Estimated Echo Signal")
+    plt.xlabel("Sample Index (n)")
+    plt.ylabel("Amplitude")
+
+    plt.tight_layout()
+    plt.legend()
+    plt.show()
+
+
 def main():
-    # part_one()
-    # part_two()
-    # part_three()
-    # part_four()
+    part_one()
+    part_two()
+    part_three()
+    part_four()
+    part_five()
+    part_six()
     pass
 
 
