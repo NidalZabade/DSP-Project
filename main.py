@@ -14,7 +14,7 @@ def load_speech(file_path):
     return sp.io.loadmat(file_path)
 
 
-def first_part():
+def part_one():
     path = load_echo_path("path.mat")
     # the impulse response of the channel
     x = path["path"]
@@ -44,7 +44,7 @@ def first_part():
     plt.show()
 
 
-def second_part():
+def part_two():
     speech = load_speech("css.mat")
 
     # the speech signal
@@ -70,7 +70,7 @@ def second_part():
     plt.show()
 
 
-def third_part():
+def part_three():
     path = load_echo_path("path.mat")
     speech = load_speech("css.mat")
 
@@ -131,7 +131,7 @@ def third_part():
     print(f"the ERL: {ELR}")
 
 
-def fourth_part():
+def part_four():
     path = np.loadtxt("path.txt")
     speech = np.loadtxt("css.txt")
 
@@ -212,10 +212,10 @@ def fourth_part():
 
 
 def main():
-    # first_part()
-    # second_part()
-    # third_part()
-    fourth_part()
+    # part_one()
+    # part_two()
+    # part_three()
+    # part_four()
 
 
 if __name__ == "__main__":
