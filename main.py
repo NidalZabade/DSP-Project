@@ -212,10 +212,6 @@ def part_four():
 
 
 def part_five():
-    """
-    Plot the amplitude and phase response for the estimated FIR channel at the end of the
-    iterations. Compare it with the given FIR system (Path).
-    """
     path = np.loadtxt("path.txt")
     speech = np.loadtxt("css.txt")
 
@@ -256,8 +252,7 @@ def part_five():
         y[i] = np.dot(adaptive_filter.w, speech[i - filter_length : i])
         e[i] = d[i] - y[i]
 
-    # plot the amplitude and phase response for the estimated FIR channel at the end of the iterations
-    # Compare it with the given FIR system (Path)
+    # plot the amplitude and phase response for the estimated FIR channel
     plt.figure(figsize=(10, 5))
     # amplitude response
     plt.subplot(121)
@@ -283,6 +278,7 @@ def part_five():
     plt.tight_layout()
     plt.legend()
     plt.show()
+
 
 
 def main():
