@@ -356,14 +356,14 @@ def part_six():
     plt.show()
 
 
-
 def main():
-    # part_one()
-    # part_two()
-    # part_three()
-    # part_four()
-    # part_five()
+    part_one()
+    part_two()
+    part_three()
+    part_four()
+    part_five()
     part_six()
+    pass
 
 
 if __name__ == "__main__":
