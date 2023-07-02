@@ -1,6 +1,6 @@
 # Line Echo Cancellation
 
-🔗 | ![Report](filename.pdf)
+🔗 | [Report](filename.pdf)  
 🔗 | [Project Description](filename2.pdf)
 
 ## Contributors
