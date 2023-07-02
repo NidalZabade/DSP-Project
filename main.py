@@ -161,8 +161,8 @@ def part_four():
     # Inputs to the adaptive filter
     filter_length = 128
     mu = 0.25
-    e = np.zeros(len(speech))
-    y = np.zeros(len(speech))
+    e = np.zeros(len(speech)) # error signal
+    y = np.zeros(len(speech)) # estimated echo signal
 
     # adaptive filter
     adaptive_filter = pa.filters.FilterNLMS(n=filter_length, mu=mu, w="random")
@@ -357,12 +357,12 @@ def part_six():
 
 
 def main():
-    part_one()
-    part_two()
+    # part_one()
+    # part_two()
     part_three()
-    part_four()
-    part_five()
-    part_six()
+    # part_four()
+    # part_five()
+    # part_six()
     pass
 
 
