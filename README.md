@@ -6,6 +6,25 @@ This project for the course Digital Signal Processing (DSP). The project is abou
 
 🔗 | [Project Description](/assets/Line%2Becho%2Bcancellation.pdf)
 
+## Project Structure
+
+```bash
+├── assets
+│   └── Line+echo+cancellation.pdf
+├── data
+│   ├── css.mat
+│   ├── css.txt
+│   ├── path.mat
+│   └── path.txt
+├── docs
+│   └── Line_echo_cancellation_report.pdf
+├── src
+│   └── main.py
+├── .gitignore
+├── README.md
+└── requirements.txt
+```
+
 ## Installation and Running
 
 clone the project using the following command:
@@ -31,25 +50,6 @@ python main.py
 ## Project Report
 
 🔗 | [Project Report](/docs/Line_echo_cancellation_report.pdf)
-
-## Project Structure
-
-```bash
-├── assets
-│   └── Line+echo+cancellation.pdf
-├── data
-│   ├── css.mat
-│   ├── css.txt
-│   ├── path.mat
-│   └── path.txt
-├── docs
-│   └── Line_echo_cancellation_report.pdf
-├── src
-│   └── main.py
-├── .gitignore
-├── README.md
-└── requirements.txt
-```
 
 ## Contributors
 
